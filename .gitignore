@@ -1,0 +1,5 @@
+/node_modules
+.npmrc
+/dist
+**.tgz
+packages/react/node_modules
