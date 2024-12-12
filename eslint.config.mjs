@@ -8,9 +8,9 @@ export default [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tsEslint.configs.recommended,
-  tsEslint.config({
+  {
     rules: {
       "@typescript-eslint/no-empty-object-type": "off",
     },
-  }),
+  },
 ];

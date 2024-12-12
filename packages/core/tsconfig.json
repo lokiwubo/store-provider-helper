@@ -4,7 +4,6 @@
     "baseUrl": "./",
     "declaration": true,
     "declarationDir": "types",
-    "emitDeclarationOnly": true,
-    "jsx": "react-jsx",
+    "emitDeclarationOnly": true
   }
 }

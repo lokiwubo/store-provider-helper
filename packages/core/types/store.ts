@@ -1,12 +1,6 @@
+import { Container } from "inversify";
+import { RecordLike } from "ts-utils-helper";
 import { DefineModel } from "./model";
-import {
-  GetState,
-  GuardListener,
-  InterceptListener,
-  MiddleListener,
-  PipeListener,
-  SetState,
-} from "./shared";
 
 /**
  * @name 定义构建store的入参
@@ -31,25 +25,13 @@ export interface DefinedStoreOutput<TName, TContext> {
   storeName: TName;
   context: TContext;
   /** 来自store 内部构件的 container */
-  container: Map<string, ContainerState>;
+  container: Container;
   // actions: StoreApis<any>;
 }
 
 export interface DefinedStore {
-  <TName, TContext>(
-    containerName: TName,
-    context: TContext
+  <TName, TContext extends RecordLike = {}>(
+    storeName: TName,
+    context?: TContext
   ): DefinedStoreOutput<TName, TContext>;
-}
-
-/**
- * @name 定义Store的内部状态
- */
-export interface StoreApis<TState> {
-  getState: GetState<TState>;
-  setState: SetState<TState>;
-  pipe: (listener: PipeListener<TState>) => void;
-  useMiddleware: (listener: MiddleListener<TState>) => () => void;
-  useGuard: (listener: GuardListener<TState>) => () => void;
-  useIntercept: (listener: InterceptListener<TState>) => () => void;
 }

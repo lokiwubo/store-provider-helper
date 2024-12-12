@@ -15,7 +15,7 @@ interface ContainerState<TData = {}> {
 /**
  * @name 存储对象容器结构
  */
-interface Container {
+export interface Container {
   [storeName: string]: {
     [modelName: string]: ContainerState;
   };

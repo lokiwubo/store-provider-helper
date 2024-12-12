@@ -3,6 +3,7 @@
  */
 export interface ContainerDependenciesBase<TContext> {
   context: TContext;
+  createDate: Date;
 }
 
 /**
@@ -10,8 +11,13 @@ export interface ContainerDependenciesBase<TContext> {
  */
 export interface DynamicContainerDependencies<TContext>
   extends ContainerDependenciesBase<TContext> {
-  storeKey: string;
+  dynamicKey: string;
+  isDynamic: true;
 }
+
+export type ContainerDependenciesUnion<TContext = {}> =
+  | DynamicContainerDependencies<TContext>
+  | ContainerDependenciesBase<TContext>;
 
 /**
  * @description 定义ContainerDependencies的类型

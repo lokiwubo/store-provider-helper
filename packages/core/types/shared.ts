@@ -1,4 +1,5 @@
 import {
+  AnyLike,
   ExtractClass,
   ExtractPromise,
   IsClass,
@@ -12,11 +13,9 @@ import { ActionsOutputTemplate, ModelStateTemplate } from "./template";
  */
 export type MiddleListener<
   TState,
-  TParams = { state: TState; prevState: TState },
-> = (
-  param: TParams,
-  next: (param: TParams) => Promise<TState>
-) => PromiseEither<TState>;
+  TResponse = AnyLike,
+  TContext = { state: TState; prevState: TState },
+> = (context: TContext, next: (param: TContext) => TResponse) => TResponse;
 /**
  * @description 定义Pipe Listener的类型
  */
@@ -67,14 +66,3 @@ export type ExtractState<
  */
 export type ExtractEffects<T extends ActionsOutputTemplate> =
   IsClass<T> extends true ? ExtractClass<T> : T;
-
-export type MergeActions<
-  T extends ActionsOutputTemplate,
-  U extends ActionsOutputTemplate,
-> = {
-  [K in keyof T | keyof U]: K extends keyof T
-    ? T[K]
-    : K extends keyof U
-      ? U[K]
-      : never;
-};

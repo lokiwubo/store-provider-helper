@@ -3,6 +3,12 @@
     {
       "path": ".",
     },
+    {
+      "path": "packages/core",
+    },
+    {
+      "path": "packages/react",
+    },
   ],
   "settings": {},
 }
