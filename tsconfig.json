@@ -18,6 +18,10 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "paths": {
+      "@store-provider-helper/react/*": ["/packages/react/*"],
+      "@store-provider-helper/core/*": ["/packages/core/*"]
+    }
   }
 }

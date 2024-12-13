@@ -66,3 +66,5 @@ export type ExtractState<
  */
 export type ExtractEffects<T extends ActionsOutputTemplate> =
   IsClass<T> extends true ? ExtractClass<T> : T;
+
+export type UnSubscribe = () => void;

@@ -1,8 +1,10 @@
 {
-  "name": "store-provider-core",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@store-provider-helper/core",
+  "version": "1.0.1",
+  "description": "用来提供基类方法实现",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

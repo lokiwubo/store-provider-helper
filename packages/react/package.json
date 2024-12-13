@@ -1,5 +1,5 @@
 {
-  "name": "store-provider-helper",
+  "name": "@store-provider-helper/react",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@store-provider-helper/core": "workspace:^1.0.1",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2"
   },

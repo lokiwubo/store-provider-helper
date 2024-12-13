@@ -1,8 +1,13 @@
 {
-  "name": "store-provider-helper",
+  "name": "@store-provider-helper/root",
   "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "node ./scripts/preinstall.js",
+    "build:react": "rimraf dist && rollup --bundleConfigAsCjs -c"
   },
   "keywords": [],
   "repository": {
@@ -26,7 +31,7 @@
   },
   "dependencies": {
     "immer": "^10.1.1",
-    "inversify": "^6.0.3",
+    "inversify": "^6.2.0",
     "lodash-es": "^4.17.21",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

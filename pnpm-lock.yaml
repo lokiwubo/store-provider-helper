@@ -12,7 +12,7 @@ importers:
         specifier: ^10.1.1
         version: 10.1.1
       inversify:
-        specifier: ^6.0.3
+        specifier: ^6.2.0
         version: 6.2.0(reflect-metadata@0.2.2)
       lodash-es:
         specifier: ^4.17.21
@@ -25,7 +25,7 @@ importers:
         version: 7.8.1
       ts-utils-helper:
         specifier: ^1.0.12
-        version: 1.0.12
+        version: 1.0.21
       zod:
         specifier: ^3.23.8
         version: 3.24.1
@@ -69,6 +69,9 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0
     devDependencies:
+      '@store-provider-helper/core':
+        specifier: workspace:^1.0.1
+        version: link:../core
       '@types/react':
         specifier: ^19.0.1
         version: 19.0.1
@@ -842,8 +845,8 @@ packages:
       '@swc/wasm':
         optional: true
 
-  ts-utils-helper@1.0.12:
-    resolution: {integrity: sha512-NY/lOr3gvFhBYQeIcW4FH8O99XdrADYqvGoFOxF1/WYfHmf3mmK5eRLhn5NajFW++1Ut06Hb2RYYN3PtQaEtow==, tarball: https://devrepo.devcloud.cn-east-3.huaweicloud.com/artgalaxy/api/npm/cn-east-3_f4f9278e1c9843d4ab2c3a1057026386_npm_5_1/ts-utils-helper/1.0.12/ts-utils-helper-1.0.12.tgz}
+  ts-utils-helper@1.0.21:
+    resolution: {integrity: sha512-6x/OCZodYcj2c7UVCDBh4DUPGhwy/e82jJsEeETARwx2sAAAMzso6nuwUEjJL/ZR3gCaYqYsOfJiJJ65fVtR5w==, tarball: https://devrepo.devcloud.cn-east-3.huaweicloud.com/artgalaxy/api/npm/cn-east-3_f4f9278e1c9843d4ab2c3a1057026386_npm_5_1/ts-utils-helper/1.0.21/ts-utils-helper-1.0.21.tgz}
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -1633,7 +1636,7 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-utils-helper@1.0.12:
+  ts-utils-helper@1.0.21:
     dependencies:
       lodash: 4.17.21
 

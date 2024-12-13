@@ -40,7 +40,7 @@ type HistoryRecordData = {
  *  }
  */
 class HistoryStorage {
-  constructor(private storeName: string) {
+  constructor() {
   }
   private get historyState() {
     return window.history.state;
@@ -51,7 +51,7 @@ class HistoryStorage {
       | undefined;
   }
   // 应该是理该当前页的时候创建 historyState
-  private create(data: AnyLike, expires?: number) {
+  public create(data: AnyLike, expires?: number) {
     const curDate = Date.now();
     const hash = createHash(data);
     const originState = this.state ?? {};
@@ -80,8 +80,26 @@ class HistoryStorage {
   };
 }
 
-export const createHistoryStorage = () => {
-  return new HistoryStorage();
+export const createHistoryContainer = () => {
+  const historyStorage = new HistoryStorage();
+  //页面离开或者刷新的时候执行的事件
+  window.addEventListener('beforeunload', ()=>{
+
+  });
+  //监听页面进入和离开候执行的事件
+  window.addEventListener("popstate", () => {
+    history.replaceState(
+      historyStorage.create({}),
+      window.document.title,
+      window.location.href
+    );
+  });
+  return {
+    definedHistory: ()=>{
+      return 
+
+    }
+  };
 };
 
 
