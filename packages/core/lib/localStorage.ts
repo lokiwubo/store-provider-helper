@@ -2,8 +2,8 @@ import {  produce } from "immer";
 import { isObject } from "ts-utils-helper";
 import { z, ZodType, ZodTypeDef } from "zod";
 export interface CustomEventParams<T, TPartial = Partial<T>> {
-  data: TPartial;
-  nextData: TPartial;
+  preData: TPartial;
+  curData: TPartial;
 }
 /**
  * @description 创建一个本地存储的 store
@@ -35,34 +35,38 @@ export class StorageStore<const T extends ZodType<unknown, ZodTypeDef, unknown>,
       state: storeData,
     });
   }
-  getStoreData() {
+   getStoreData() {
     return (
       JSON.parse(
         localStorage.getItem(this.storeName) ?? this.generateData({})
       ) as { state: Partial<StateType>; date: number }
     ).state as StateType;
   }
+  setStoreData(data: StateType) {
+    const storeData = this.getStoreData();
+    try {
+      this.schema.parse(data);
+      const event = new CustomEvent<CustomEventParams<StateType>>(
+        this.eventName,
+        {
+          detail: {
+            preData: storeData,
+            curData: data, // 传递的数据
+          },
+        }
+      );
+      window.dispatchEvent(event);
+      localStorage.setItem(this.storeName, this.generateData(data));
+    } catch (error) {
+      console.error(`${this.key} 存储数据验证失败:`, error);
+    }
+  }
   setItem<T extends keyof StateType>(key: T, value: StateType[T]) {
     const storeData = this.getStoreData();
     const draftData = produce(storeData, (draft: StateType) => {
       draft[key] = value 
     });
-    try {
-      this.schema.parse(draftData);
-      const event = new CustomEvent<CustomEventParams<StateType>>(
-        this.eventName,
-        {
-          detail: {
-            data: storeData,
-            nextData: draftData, // 传递的数据
-          },
-        }
-      );
-      window.dispatchEvent(event);
-      localStorage.setItem(this.storeName, this.generateData(draftData));
-    } catch (error) {
-      console.error(`${this.key} 存储数据验证失败:`, error);
-    }
+    this.setStoreData(draftData);
   }
   getItem<T extends keyof StateType & string>(key: T): StateType[T] | undefined;
   getItem<T extends keyof StateType & string>(key: T, b: StateType[T]): StateType[T];
@@ -84,11 +88,13 @@ export class StorageStore<const T extends ZodType<unknown, ZodTypeDef, unknown>,
     });
     localStorage.setItem(this.storeName, this.generateData(draftData));
   }
-  subscribe(callback: () => void) {
-    window.addEventListener(this.eventName, () => {
-      callback();
-    });
-    return () => window.removeEventListener(this.eventName, callback);
+  subscribe(callback: <TData = Partial<StateType>>(curData: TData, preData: TData) => void) {
+    const handler = (env: Event) => {
+      const { detail } = env as CustomEvent<CustomEventParams<StateType>>;
+      callback(detail.curData, detail.preData);
+    };
+    window.addEventListener(this.eventName, handler);
+    return () => window.removeEventListener(this.eventName, handler);
   }
 }
 export const createLocalStorageContainer = function <T extends ZodType<unknown, ZodTypeDef, unknown>>(

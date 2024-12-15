@@ -2,6 +2,7 @@
  * @fileoverview 用来提供历史数据存储的接口
  */
 
+import { produce } from "immer";
 import { get } from "lodash-es";
 import { AnyLike } from "ts-utils-helper";
 
@@ -21,11 +22,12 @@ export const createHash = (data: AnyLike) => {
   }
   return `${hash.toString(32)}`;
 };
+export type HistoryState <TData> = TData | (() => TData);
 
-type HistoryRecordData = {
+
+type HistoryRecordData<TData = AnyLike> = {
   expires: number;
-  data: AnyLike;
-  initData: AnyLike;
+  data: TData;
   date: Date;
 };
 /**
@@ -40,64 +42,69 @@ type HistoryRecordData = {
  *  }
  */
 class HistoryStorage {
-  constructor() {
+  constructor(private name: string) {
   }
   private get historyState() {
     return window.history.state;
   }
-  private get state() {
+  private get storeState() {
     return get(this.historyState, constant["HISTORY_STORE_NAME"]) as
       | HistoryRecordData
       | undefined;
   }
-  // 应该是理该当前页的时候创建 historyState
-  public create(data: AnyLike, expires?: number) {
+  private updateHistoryState = (state: AnyLike) => {
+    const storeState = this.storeState ?? {};
+    const replaceState = Object.assign(storeState, {
+      [constant["HISTORY_STORE_NAME"]]: state,
+    })
+    history.replaceState(
+      replaceState,
+      window.document.title,
+      window.location.href
+    );
+    window.history.replaceState(state, window.document.title, window.location.href);
+  };
+  setState = <TData>(key: string, value: TData) => {
+    //监听页面进入和离开
     const curDate = Date.now();
-    const hash = createHash(data);
-    const originState = this.state ?? {};
-    const historyStorageState = Object.assign({
-      [hash]: {
-        key: hash,
-        expires,
-        data: data,
-        initData: data,
+    const storeState = this.storeState ?? {};
+    const historyStorageState = Object.assign(storeState,{
+      [key]: {
+        key,
+        data: value,
         date: curDate,
       },
     });
-    return Object.assign(originState, {
-      [constant["HISTORY_STORE_NAME"]]: historyStorageState,
-    });
-  }
-  setState = () => {
-    //监听页面进入和离开
-    window.addEventListener("popstate", () => {
-      history.replaceState(
-        this.create({}),
-        window.document.title,
-        window.location.href
-      );
-    });
+    this.updateHistoryState(historyStorageState)
+    
   };
+  getState = <TState>(key: string) => {
+    return get(this.storeState, key) as HistoryRecordData<TState>;
+  };
+  clearState = ():void => {
+    return this.updateHistoryState(undefined)
+  }
 }
 
-export const createHistoryContainer = () => {
-  const historyStorage = new HistoryStorage();
+export const createHistoryContainer = (name: string) => {
+  const historyStorage = new HistoryStorage(name);
   //页面离开或者刷新的时候执行的事件
   window.addEventListener('beforeunload', ()=>{
-
+    historyStorage.clearState()
   });
   //监听页面进入和离开候执行的事件
   window.addEventListener("popstate", () => {
     history.replaceState(
-      historyStorage.create({}),
+      {},
       window.document.title,
       window.location.href
     );
   });
-  return {
-    definedHistory: ()=>{
-      return 
 
+  return {
+    getState: <TState>(getState: HistoryState<TState>):TState=>{
+      const defaultState = getState?.() | getState;
+      return historyStorage.getState<TState>(createHash(defaultState)).data;
     }
   };
 };
