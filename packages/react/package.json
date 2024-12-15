@@ -12,7 +12,9 @@
   "devDependencies": {
     "@store-provider-helper/core": "workspace:^1.0.1",
     "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.2"
+    "@types/react-dom": "^19.0.2",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0"
   },
   "peerDependencies": {
     "react": "^19.0.0"
