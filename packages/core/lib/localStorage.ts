@@ -1,6 +1,6 @@
-import {  produce } from "immer";
-import { isObject } from "ts-utils-helper";
-import { z, ZodType, ZodTypeDef } from "zod";
+import { produce } from 'immer';
+import { isObject } from 'ts-utils-helper';
+import { z, ZodType, ZodTypeDef } from 'zod';
 export interface CustomEventParams<T, TPartial = Partial<T>> {
   preData: TPartial;
   curData: TPartial;
@@ -22,39 +22,44 @@ export interface CustomEventParams<T, TPartial = Partial<T>> {
  */
 export type StorageStoreSchema = ZodType<unknown, ZodTypeDef, unknown>;
 
-export class StorageStore<const T extends ZodType<unknown, ZodTypeDef, unknown>, StateType = z.infer<T> > { 
+export class StorageStore<
+  const T extends ZodType<unknown, ZodTypeDef, unknown>,
+  StateType = z.infer<T>,
+> {
   constructor(
     private storeName: string,
     private schema: T,
   ) {}
-  get key(){ return  this.storeName};
-  get eventName(){ return `${this.key}-event-storage`};
+  get key() {
+    return this.storeName;
+  }
+  get eventName() {
+    return `${this.key}-event-storage`;
+  }
   private generateData<T extends StateType>(storeData: Partial<T>): string {
     return JSON.stringify({
       date: Date.now(),
       state: storeData,
     });
   }
-   getStoreData() {
+  getStoreData() {
     return (
-      JSON.parse(
-        localStorage.getItem(this.storeName) ?? this.generateData({})
-      ) as { state: Partial<StateType>; date: number }
+      JSON.parse(localStorage.getItem(this.storeName) ?? this.generateData({})) as {
+        state: Partial<StateType>;
+        date: number;
+      }
     ).state as StateType;
   }
   setStoreData(data: StateType) {
     const storeData = this.getStoreData();
     try {
       this.schema.parse(data);
-      const event = new CustomEvent<CustomEventParams<StateType>>(
-        this.eventName,
-        {
-          detail: {
-            preData: storeData,
-            curData: data, // 传递的数据
-          },
-        }
-      );
+      const event = new CustomEvent<CustomEventParams<StateType>>(this.eventName, {
+        detail: {
+          preData: storeData,
+          curData: data, // 传递的数据
+        },
+      });
       window.dispatchEvent(event);
       localStorage.setItem(this.storeName, this.generateData(data));
     } catch (error) {
@@ -64,7 +69,7 @@ export class StorageStore<const T extends ZodType<unknown, ZodTypeDef, unknown>,
   setItem<T extends keyof StateType>(key: T, value: StateType[T]) {
     const storeData = this.getStoreData();
     const draftData = produce(storeData, (draft: StateType) => {
-      draft[key] = value 
+      draft[key] = value;
     });
     this.setStoreData(draftData);
   }
@@ -72,15 +77,15 @@ export class StorageStore<const T extends ZodType<unknown, ZodTypeDef, unknown>,
   getItem<T extends keyof StateType & string>(key: T, b: StateType[T]): StateType[T];
   getItem<T extends keyof StateType & string>(
     key: T,
-    defaultValue?: StateType[T]
+    defaultValue?: StateType[T],
   ): StateType[T] | undefined {
     const storeData = this.getStoreData();
     return storeData[key] ?? defaultValue;
   }
   removeItem<T extends keyof StateType & string>(key: T) {
     const storeData = this.getStoreData();
-    const draftData = produce(storeData, (draft ) => {
-      if(isObject(draft)){
+    const draftData = produce(storeData, (draft) => {
+      if (isObject(draft)) {
         Object.assign(draft, {
           [`${key}`]: undefined,
         });
@@ -97,13 +102,11 @@ export class StorageStore<const T extends ZodType<unknown, ZodTypeDef, unknown>,
     return () => window.removeEventListener(this.eventName, handler);
   }
 }
-export const createLocalStorageContainer = function <T extends ZodType<unknown, ZodTypeDef, unknown>>(
-  storeName: string,
-  schema: T
-) {
+export const createLocalStorageContainer = function <
+  T extends ZodType<unknown, ZodTypeDef, unknown>,
+>(storeName: string, schema: T) {
   return new StorageStore(storeName, schema);
-}
-
+};
 
 /**
  * 用来存储数据的本地存储

@@ -1,11 +1,11 @@
-import pluginJs from "@eslint/js";
-import globals from "globals";
-import tsEslint from "typescript-eslint";
+import pluginJs from '@eslint/js';
+import globals from 'globals';
+import tsEslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     env: {
       browser: true,
       node: true,
@@ -16,7 +16,7 @@ export default [
   ...tsEslint.configs.recommended,
   {
     rules: {
-      "@typescript-eslint/no-empty-object-type": "off",
+      '@typescript-eslint/no-empty-object-type': 'off',
     },
   },
 ];

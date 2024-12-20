@@ -1,17 +1,17 @@
 {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit",
-      "source.fixAll": "explicit"
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "typescript.preferences.importModuleSpecifier": "non-relative",
-    "stylelint.reportDescriptionlessDisables": true,
-    "editor.formatOnPaste": true,
-    "editor.quickSuggestions": {
-      "other": true,
-      "comments": false,
-      "strings": true
-    }
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit",
+    "source.fixAll.prettier": "always"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "stylelint.reportDescriptionlessDisables": true,
+  "editor.formatOnPaste": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
   }
-  
+}

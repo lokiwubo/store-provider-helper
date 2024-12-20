@@ -1,39 +1,37 @@
-import { useMemo, useSyncExternalStore } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import {
   createLocalStorageContainer,
   StorageStore,
   StorageStoreSchema,
-} from "@store-provider-helper/core";
-import {
-  createDeepReactiveProxy,
-  FunctionLike,
-  RecordLike,
-  shallow,
-} from "ts-utils-helper";
-import { TypeOf } from "zod";
+} from '@store-provider-helper/core';
+import { AnyLike, createDeepReactiveProxy, RecordLike, shallow } from 'ts-utils-helper';
+import { TypeOf } from 'zod';
 
+type SelectorType = (value: AnyLike) => AnyLike;
 /**
  * @description
  */
-export const createLocalStorage = <
-  TName extends string,
-  TSchema extends StorageStoreSchema,
->(
+export const createLocalStorage = <TName extends string, TSchema extends StorageStoreSchema>(
   name: TName,
-  schema: TSchema
+  schema: TSchema,
 ) => {
+  type SchemaDataType = TypeOf<TSchema>;
   const container = createLocalStorageContainer(name, schema);
-  const useLocalStorage = function <TSelector extends FunctionLike>(
-    selector: TSelector
-  ) {
+  const useLocalStorage = function <TSelector extends SelectorType>(selector?: TSelector) {
+    const getSelectorData = useCallback(
+      (data: SchemaDataType) => {
+        return selector ? selector(data) : data;
+      },
+      [selector],
+    );
+
     useSyncExternalStore((onStoreChange) => {
-      const subscribe = container.subscribe((curData, preData) => {
+      return container.subscribe((curData, preData) => {
         // 应用的值变了，通知组件更新
-        if (!shallow(selector(curData), selector(preData))) {
+        if (!shallow(getSelectorData(curData), getSelectorData(preData))) {
           onStoreChange();
         }
       });
-      return subscribe;
     }, container.getStoreData);
 
     return useMemo(() => {
@@ -41,20 +39,20 @@ export const createLocalStorage = <
         container.getStoreData() as RecordLike,
         (_key, _value, metaData) => {
           container.setStoreData(metaData);
-        }
-      ) as TypeOf<TSchema>;
+        },
+      ) as SchemaDataType;
       // 使用代理对象返回
-      return selector(storeData);
-    }, []);
+      return getSelectorData(storeData);
+    }, [getSelectorData]);
   };
-  return Object.assign(
-    {
-      getItem: container.getItem,
-      setItem: container.setItem,
-    },
-    useLocalStorage
-  ) as unknown as {
-    getItem: StorageStore<TSchema>["getItem"];
-    setItem: StorageStore<TSchema>["setItem"];
+  return Object.assign(useLocalStorage, {
+    getItem: container.getItem,
+    setItem: container.setItem,
+  }) as unknown as {
+    getItem: StorageStore<TSchema>['getItem'];
+    setItem: StorageStore<TSchema>['setItem'];
+    <TSelector extends SelectorType>(
+      selector?: TSelector,
+    ): TSelector extends undefined ? SchemaDataType : ReturnType<TSelector>;
   };
 };

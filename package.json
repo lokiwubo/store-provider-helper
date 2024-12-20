@@ -22,7 +22,7 @@
     "@types/lodash-es": "^4.17.12",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "rollup": "^4.24.4",
     "ts-node": "^10.9.2",
@@ -35,7 +35,7 @@
     "lodash-es": "^4.17.21",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "ts-utils-helper": "^1.0.12",
+    "ts-utils-helper": "^1.0.22",
     "zod": "^3.23.8"
   },
   "main": "index.js",

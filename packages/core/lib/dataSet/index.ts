@@ -37,16 +37,15 @@ export const defineStore: DefinedStore = shackleDefinedStore(
 
       const dateKey = Date.now().toString();
       const containerName = `${storeName}-${dateKey}`;
-      let dependencies: ContainerDependenciesUnion<TContext>;
-      /**
-       * @name storeContainer
-       * @description 绑定store 单例容器
-       */
-      container
-        .bind(containerName)
-        .toConstantValue(
-          createStoreContainer(stateCreator, () => dependencies)
-        );
+      // /**
+      //  * @name storeContainer
+      //  * @description 绑定store 单例容器
+      //  */
+      // container
+      //   .bind(containerName)
+      //   .toConstantValue(
+      //     createStoreContainer(stateCreator, () => dependencies)
+      //   );
 
       const getStoreContainer = () => {
         return container.get<

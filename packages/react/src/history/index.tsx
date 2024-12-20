@@ -1,22 +1,42 @@
-import { createHistoryContainer } from "@store-provider-helper/core";
+import { createHash, createHistoryHelper } from '@store-provider-helper/core';
+import { useCallback, useId, useMemo, useSyncExternalStore } from 'react';
 
+// type HistoryOptions = {
+//   /**过期事件 */
+//   expire?: number; //  number(ms)
+// };
 /**
- * @description
+ * @description 提供把数据存储在history中的能力
  */
-export const createHistory = <TName extends string>(
-  name: TName,
-  options?: Partial<{
-    expired: number;
-  }>
-) => {
-  const historyContainer = createHistoryContainer(name);
-  const useHistoryState = function <TState>(state: TState) {
-    const [state, setState] = historyContainer.getState(state);
+export const createHistory = () => {
+  const historyHelper = createHistoryHelper();
+  const useHistoryState = function <TState>(InitState: TState) {
+    const id = useId();
+    const key = useMemo(() => {
+      return `${createHash(InitState)}/${id}`;
+    }, [InitState, id]);
 
-    const setHistoryState = function (newState: TState) {
-      return newState;
-    };
-    return [state, setHistoryState];
+    const historyItem = historyHelper.getItem<TState>(key);
+
+    const changeValue = useCallback(
+      (curData: TState) => {
+        historyHelper.setValue(key, curData);
+      },
+      [key],
+    );
+
+    useSyncExternalStore(
+      (onStoreChange) => {
+        return historyHelper.subscribe(key, onStoreChange);
+      },
+      () => historyHelper.getValue(key),
+    );
+
+    return useMemo(() => {
+      const value = historyItem?.data || InitState;
+      return [value, changeValue] as [TState, (state: TState) => void];
+    }, [historyItem, InitState, changeValue]);
   };
-  return useHistoryState;
+  // TODO 后续可以新增一些方法
+  return Object.assign(useHistoryState, {});
 };
