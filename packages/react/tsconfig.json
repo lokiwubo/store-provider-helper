@@ -3,8 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "declaration": true,
-    "declarationDir": "types",
+    "declarationDir": "dist",
     "emitDeclarationOnly": true,
     "jsx": "react-jsx",
-  }
+  },
+
 }

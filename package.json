@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "node ./scripts/preinstall.js",
-    "build:react": "rimraf dist && rollup --bundleConfigAsCjs -c"
+    "build:react": "pnpm --filter @store-provider-helper/react run build",
+    "build:all": "pnpm -r run build"
   },
   "keywords": [],
   "repository": {
@@ -19,12 +20,16 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/lodash-es": "^4.17.12",
     "eslint": "^9.16.0",
+    "eslint-plugin-import": "^2.31.0",
     "globals": "^15.13.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "rollup": "^4.24.4",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.17.0"
@@ -32,11 +37,14 @@
   "dependencies": {
     "immer": "^10.1.1",
     "inversify": "^6.2.0",
-    "lodash-es": "^4.17.21",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "ts-utils-helper": "^1.0.22",
     "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "ts-utils-helper": "^1.0.22",
+    "lodash-es": "^4.17.21",
+    "react": "^19.0.0"
   },
   "main": "index.js",
   "bugs": {

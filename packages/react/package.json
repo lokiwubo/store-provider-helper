@@ -1,7 +1,9 @@
 {
   "name": "@store-provider-helper/react",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.esm.js",
   "scripts": {
     "build": "rimraf dist && rollup  -c",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,6 +24,8 @@
     "typescript-eslint": "^8.17.0"
   },
   "peerDependencies": {
+    "ts-utils-helper": "^1.0.22",
+    "lodash-es": "^4.17.21",
     "react": "^19.0.0"
   }
 }

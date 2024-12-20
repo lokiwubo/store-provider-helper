@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "declaration": true,
-    "declarationDir": "types",
-    "emitDeclarationOnly": true
-  }
+    "declarationDir": "./dist", 
+    "outDir": "./dist",
+  },
+  "exclude": ["lib/dataSet"],
 }
