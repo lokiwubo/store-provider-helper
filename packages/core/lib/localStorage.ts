@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { isObject } from 'ts-utils-helper';
+import { isObject, RecordLike } from 'ts-utils-helper';
 import { z, ZodType, ZodTypeDef } from 'zod';
 export interface CustomEventParams<T, TPartial = Partial<T>> {
   preData: TPartial;
@@ -48,7 +48,7 @@ export class StorageStore<
         state: Partial<StateType>;
         date: number;
       }
-    ).state as StateType;
+    ).state as StateType & RecordLike;
   }
   setStoreData(data: StateType) {
     const storeData = this.getStoreData();

@@ -1,4 +1,5 @@
 import pluginJs from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
 import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
@@ -6,9 +7,10 @@ import tsEslint from 'typescript-eslint';
 export default [
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-    env: {
-      browser: true,
-      node: true,
+    languageOptions: {
+      globals: {
+        module: 'readonly',
+      },
     },
   },
   { languageOptions: { globals: globals.browser } },
@@ -17,6 +19,18 @@ export default [
   {
     rules: {
       '@typescript-eslint/no-empty-object-type': 'off',
+    },
+  },
+  {
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      // 你可以根据需要配置规则
+      'import/named': 'error',
+      'import/namespace': 'off',
+      'import/default': 'error',
+      'import/export': 'error',
     },
   },
 ];

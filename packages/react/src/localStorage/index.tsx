@@ -4,7 +4,7 @@ import {
   StorageStore,
   StorageStoreSchema,
 } from '@store-provider-helper/core';
-import { AnyLike, createDeepReactiveProxy, RecordLike, shallow } from 'ts-utils-helper';
+import { AnyLike, createDeepReactiveProxy, shallow } from 'ts-utils-helper';
 import { TypeOf } from 'zod';
 
 type SelectorType = (value: AnyLike) => AnyLike;
@@ -25,25 +25,26 @@ export const createLocalStorage = <TName extends string, TSchema extends Storage
       [selector],
     );
 
-    useSyncExternalStore((onStoreChange) => {
-      return container.subscribe((curData, preData) => {
-        // 应用的值变了，通知组件更新
-        if (!shallow(getSelectorData(curData), getSelectorData(preData))) {
-          onStoreChange();
-        }
-      });
-    }, container.getStoreData);
+    const store = useSyncExternalStore(
+      (onStoreChange) => {
+        return container.subscribe((curData, preData) => {
+          // 应用的值变了，通知组件更新
+          if (!shallow(getSelectorData(curData), getSelectorData(preData))) {
+            onStoreChange();
+          }
+        });
+      },
+      container.getStoreData,
+      container.getStoreData,
+    );
 
     return useMemo(() => {
-      const storeData = createDeepReactiveProxy(
-        container.getStoreData() as RecordLike,
-        (_key, _value, metaData) => {
-          container.setStoreData(metaData);
-        },
-      ) as SchemaDataType;
+      const storeData = createDeepReactiveProxy(store, (_key, _value, metaData) => {
+        container.setStoreData(metaData);
+      }) as SchemaDataType;
       // 使用代理对象返回
       return getSelectorData(storeData);
-    }, [getSelectorData]);
+    }, [getSelectorData, store]);
   };
   return Object.assign(useLocalStorage, {
     getItem: container.getItem,
