@@ -1,6 +1,8 @@
 import { produce } from 'immer';
-import { isObject, RecordLike } from 'ts-utils-helper';
-import { z, ZodType, ZodTypeDef } from 'zod';
+import type { RecordLike } from 'ts-utils-helper';
+import { isObject } from 'ts-utils-helper';
+import type { ZodTypeDef } from 'zod';
+import { z, ZodType } from 'zod';
 export interface CustomEventParams<T, TPartial = Partial<T>> {
   preData: TPartial;
   curData: TPartial;
@@ -28,7 +30,7 @@ export class StorageStore<
 > {
   constructor(
     private storeName: string,
-    private schema: T,
+    private schema: T
   ) {}
   get key() {
     return this.storeName;
@@ -77,7 +79,7 @@ export class StorageStore<
   getItem<T extends keyof StateType & string>(key: T, b: StateType[T]): StateType[T];
   getItem<T extends keyof StateType & string>(
     key: T,
-    defaultValue?: StateType[T],
+    defaultValue?: StateType[T]
   ): StateType[T] | undefined {
     const storeData = this.getStoreData();
     return storeData[key] ?? defaultValue;

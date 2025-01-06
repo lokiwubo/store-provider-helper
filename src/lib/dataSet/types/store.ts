@@ -1,6 +1,6 @@
-import { Container } from "inversify";
-import { RecordLike } from "ts-utils-helper";
-import { DefineModel } from "./model";
+import { Container } from 'inversify';
+import type { RecordLike } from 'ts-utils-helper';
+import { DefineModel } from './model';
 
 /**
  * @name 定义构建store的入参

@@ -1,7 +1,8 @@
 /**
  * @fileoverview 用来提供历史数据存储的接口
  */
-import { AnyLike, ObjectLike, shallow } from 'ts-utils-helper';
+import type { AnyLike, ObjectLike } from 'ts-utils-helper';
+import { shallow } from 'ts-utils-helper';
 import { HistoryRecordData } from './types';
 export const createHash = (data: AnyLike) => {
   const str = JSON.stringify(data);
@@ -40,7 +41,7 @@ export const createProxyStoreData = <TData extends ObjectLike>(data: TData) => {
 
 export const createHistoryRecordData = <TData>(
   key: string,
-  data: TData,
+  data: TData
 ): HistoryRecordData<TData> => {
   const date = Date.now();
   return {

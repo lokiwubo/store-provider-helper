@@ -5,14 +5,9 @@
  *  defineModel 用来定义store Entity
  */
 
-import { Container } from "inversify";
-import {
-  AnyLike,
-  deepFreeze,
-  deepReadOnly,
-  RecordLike,
-  SeniorNonNullable,
-} from "ts-utils-helper";
+import { Container } from 'inversify';
+import type { AnyLike, RecordLike, SeniorNonNullable } from 'ts-utils-helper';
+import { deepFreeze, deepReadOnly } from 'ts-utils-helper';
 import {
   createDependencies,
   createDynamicDependencies,
@@ -20,16 +15,16 @@ import {
   createStaticModel,
   shackleDefinedStore,
   shackleDefineModel,
-} from "./helper";
-import { createStoreApis, createStoreContainer, StoreContainer } from "./store";
-import { ContainerDependenciesUnion } from "./types/dependencies";
-import { DefineModelOutput, ModelStructureData } from "./types/model";
-import { ExtractState } from "./types/shared";
-import { DefinedStore } from "./types/store";
+} from './helper';
+import { createStoreApis, StoreContainer } from './store';
+import { ContainerDependenciesUnion } from './types/dependencies';
+import { DefineModelOutput, ModelStructureData } from './types/model';
+import { ExtractState } from './types/shared';
+import { DefinedStore } from './types/store';
 
 export const defineStore: DefinedStore = shackleDefinedStore(
   (storeName, context: RecordLike = {}) => {
-    const container = new Container({ defaultScope: "Singleton" });
+    const container = new Container({ defaultScope: 'Singleton' });
     const defineModel = shackleDefineModel((stateCreator, isDynamic) => {
       type TState = ExtractState<typeof stateCreator>;
       type TContext = typeof context;
@@ -49,10 +44,7 @@ export const defineStore: DefinedStore = shackleDefinedStore(
 
       const getStoreContainer = () => {
         return container.get<
-          StoreContainer<
-            typeof stateCreator,
-            ContainerDependenciesUnion<TContext>
-          >
+          StoreContainer<typeof stateCreator, ContainerDependenciesUnion<TContext>>
         >(containerName);
       };
       const getStore = () => {
@@ -91,17 +83,17 @@ export const defineStore: DefinedStore = shackleDefinedStore(
   }
 );
 
-const store = defineStore("appStore", {});
-const model = store.defineModel(async (dep) => {
-  return { name: dep.dynamicKey };
-}, true);
+// const store = defineStore('appStore', {});
+// const model = store.defineModel(async (dep) => {
+//   return { name: dep.dynamicKey };
+// }, true);
 
-const bindModel = model.bindActions(() => {
-  return {
-    test: (a: number, b: string) => {
-      return Promise.resolve(a + b);
-    },
-  };
-});
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const value = bindModel("123123").actions.test.subscribeAction(() => {});
+// const bindModel = model.bindActions(() => {
+//   return {
+//     test: (a: number, b: string) => {
+//       return Promise.resolve(a + b);
+//     },
+//   };
+// });
+
+// const value = bindModel('123123').actions.test.subscribeAction(() => {});

@@ -1,14 +1,14 @@
 {
-  "name": "@store-provider-helper/root",
+  "name": "store-provider-helper",
   "version": "1.0.0",
-  "workspaces": [
-    "packages/*"
-  ],
+  "description": "用来提供基类方法实现",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.esm.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "node ./scripts/preinstall.js",
-    "build:react": "pnpm --filter @store-provider-helper/react run build",
-    "build:all": "pnpm -r run build"
+    "build": "rimraf dist && rollup --bundleConfigAsCjs -c"
   },
   "keywords": [],
   "repository": {
@@ -17,9 +17,11 @@
   },
   "author": "loki",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/lodash-es": "^4.17.12",
     "eslint": "^9.16.0",
@@ -31,22 +33,20 @@
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0"
   },
   "dependencies": {
     "immer": "^10.1.1",
     "inversify": "^6.2.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "zod": "^3.23.8"
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "ts-utils-helper": "^1.0.22",
+    "zod": "^3.23.8",
     "lodash-es": "^4.17.21",
-    "react": "^19.0.0"
+    "ts-utils-helper": ">=1.0.20"
   },
-  "main": "index.js",
   "bugs": {
     "url": "https://github.com/lokiwubo/store-provider-helper/issues"
   },

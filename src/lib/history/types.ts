@@ -1,4 +1,4 @@
-import { AnyLike } from 'ts-utils-helper';
+import type { AnyLike } from 'ts-utils-helper';
 
 export type HistoryRecordData<TData = AnyLike> = {
   key: string;

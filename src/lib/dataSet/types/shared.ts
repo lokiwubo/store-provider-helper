@@ -1,12 +1,12 @@
-import {
+import type {
   AnyLike,
   ExtractClass,
   ExtractPromise,
   IsClass,
   IsPromise,
   PromiseEither,
-} from "ts-utils-helper";
-import { ActionsOutputTemplate, ModelStateTemplate } from "./template";
+} from 'ts-utils-helper';
+import { ActionsOutputTemplate, ModelStateTemplate } from './template';
 
 /**
  * @description 定义Listener的类型
@@ -19,25 +19,16 @@ export type MiddleListener<
 /**
  * @description 定义Pipe Listener的类型
  */
-export type PipeListener<TState> = (
-  state: TState,
-  prevState: TState
-) => PromiseEither<TState>;
+export type PipeListener<TState> = (state: TState, prevState: TState) => PromiseEither<TState>;
 
 /**
  * @description 定义守卫Listener的类型
  */
-export type GuardListener<TState> = (
-  state: TState,
-  prevState: TState
-) => PromiseEither<boolean>;
+export type GuardListener<TState> = (state: TState, prevState: TState) => PromiseEither<boolean>;
 /**
  * @description 定义拦截器Listener的类型
  */
-export type InterceptListener<TState> = (
-  state: TState,
-  prevState: TState
-) => PromiseEither<TState>;
+export type InterceptListener<TState> = (state: TState, prevState: TState) => PromiseEither<TState>;
 
 /**
  * @description 获取数据的类型
@@ -57,10 +48,8 @@ export interface SetState<TData> {
 /**
  * @description 抽取state
  */
-export type ExtractState<
-  T extends ModelStateTemplate,
-  TReturn = ReturnType<T>,
-> = IsPromise<TReturn> extends true ? ExtractPromise<TReturn> : TReturn;
+export type ExtractState<T extends ModelStateTemplate, TReturn = ReturnType<T>> =
+  IsPromise<TReturn> extends true ? ExtractPromise<TReturn> : TReturn;
 /**
  * @description 抽取effects
  */

@@ -1,11 +1,12 @@
 /**
  * @fileoverview 用来提供历史数据存储的接口
  */
-import { get } from 'lodash-es';
-import { AnyLike, deepFreeze } from 'ts-utils-helper';
-import { HISTORY_CUSTOM_EVENT_NAME } from './constants';
 import { produce } from 'immer';
-import { shallowCompareValues, createHistoryRecordData, createProxyStoreData } from './helper';
+import { get } from 'lodash-es';
+import type { AnyLike } from 'ts-utils-helper';
+import { deepFreeze } from 'ts-utils-helper';
+import { HISTORY_CUSTOM_EVENT_NAME } from './constants';
+import { createHistoryRecordData, createProxyStoreData, shallowCompareValues } from './helper';
 import { HistoryStorage } from './history';
 import { CustomEventParams, HistoryRecordData, HistoryStructData } from './types';
 

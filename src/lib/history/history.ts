@@ -1,8 +1,8 @@
-import { get } from 'lodash-es';
-import { HistoryStructData } from './types';
-import { HISTORY_STORE_NAME } from './constants';
-import { AnyLike } from 'ts-utils-helper';
 import { produce } from 'immer';
+import { get } from 'lodash-es';
+import type { AnyLike } from 'ts-utils-helper';
+import { HISTORY_STORE_NAME } from './constants';
+import { HistoryStructData } from './types';
 
 export class HistoryStorage {
   private get historyState() {

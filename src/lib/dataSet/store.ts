@@ -1,6 +1,7 @@
-import { AnyLike, middleware, RecordLike } from "ts-utils-helper";
-import { getMiddlewareListen } from "./helper";
-import { ContainerDependenciesUnion } from "./types/dependencies";
+import type { AnyLike, RecordLike } from 'ts-utils-helper';
+import { middleware } from 'ts-utils-helper';
+import { getMiddlewareListen } from './helper';
+import { ContainerDependenciesUnion } from './types/dependencies';
 import {
   ExtractState,
   GetState,
@@ -8,8 +9,8 @@ import {
   InterceptListener,
   MiddleListener,
   SetState,
-} from "./types/shared";
-import { ModelStateTemplate } from "./types/template";
+} from './types/shared';
+import { ModelStateTemplate } from './types/template';
 
 export const createStoreApis = <TState>(
   getStore: () => TState,
@@ -36,8 +37,7 @@ export const proxyStore = <TState extends RecordLike>(storeState: TState) => {
  */
 export class StoreContainer<
   TCreator extends ModelStateTemplate = () => {},
-  TDependencies extends
-    ContainerDependenciesUnion = ContainerDependenciesUnion<RecordLike>,
+  TDependencies extends ContainerDependenciesUnion = ContainerDependenciesUnion<RecordLike>,
   TState = ExtractState<TCreator>,
 > {
   private storeData: AnyLike = undefined;
@@ -70,9 +70,7 @@ export class StoreContainer<
   setStore(storeData: AnyLike) {
     this.isInitialized = false;
     this.storeData = storeData;
-    this.subscribers.forEach((subscriberItem) =>
-      subscriberItem(this.storeData)
-    );
+    this.subscribers.forEach((subscriberItem) => subscriberItem(this.storeData));
   }
   subscriber(listener: (storeData: AnyLike) => void) {
     this.subscribers.add(listener);
@@ -103,9 +101,7 @@ export class ModelApiProvider<TStore = AnyLike> {
   private guardListeners = new Set<GuardListener<TStore>>();
   // 拦截中间件
   private interceptListeners = new Set<InterceptListener<TStore>>();
-  public getState: GetState<TStore> = (
-    selector?: (data: TStore) => AnyLike
-  ) => {
+  public getState: GetState<TStore> = (selector?: (data: TStore) => AnyLike) => {
     const store = this.getStore();
     return selector ? selector(store) : store;
   };
@@ -129,7 +125,7 @@ export class ModelApiProvider<TStore = AnyLike> {
     replace: boolean = false
   ) => {
     const store = this.getStore();
-    if (typeof firstArg === "function") {
+    if (typeof firstArg === 'function') {
       // 如果参数是函数，则调用它来更新状态
       const updateFn = firstArg as (data: TStore) => TData;
       this.updateStore({ ...store, ...updateFn(store) });
