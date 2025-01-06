@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default [
   {
@@ -20,6 +21,7 @@ export default [
       },
     ],
     plugins: [
+      peerDepsExternal(),
       resolve(), // 用于解析模块
       commonjs(), // 用于转换 CommonJS 模块为 ES6 模块
       typescript({
