@@ -2,6 +2,7 @@
   "name": "store-provider-helper",
   "version": "1.0.2",
   "description": "用来提供基类方法实现",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.js",
@@ -10,8 +11,8 @@
     "release:patch": "npm version patch && npm publish",
     "patch": "npm run build && npm version patch && npm pack",
     "//": "# node ./scripts/preinstall.js",
-    "build": "rimraf dist && rollup --bundleConfigAsCjs -c",
-    "publish": "npm publish"
+    "build": "rimraf dist && rollup  -c",
+    "publish": "rimraf dist/**/*.js.map && npm publish"
   },
   "keywords": [],
   "repository": {
