@@ -12,7 +12,7 @@
     "patch": "npm run build && npm version patch && npm pack",
     "//": "# node ./scripts/preinstall.js",
     "build": "rimraf dist && rollup  -c",
-    "publish": "rimraf dist/**/*.js.map && npm publish"
+    "prepublishOnly": "rimraf --glob dist/**/*.js.map"
   },
   "keywords": [],
   "repository": {

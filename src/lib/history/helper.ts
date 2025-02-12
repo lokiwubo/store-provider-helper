@@ -1,19 +1,9 @@
 /**
  * @fileoverview 用来提供历史数据存储的接口
  */
-import type { AnyLike, ObjectLike } from 'ts-utils-helper';
+import type { ObjectLike } from 'ts-utils-helper';
 import { shallow } from 'ts-utils-helper';
 import { HistoryRecordData } from './types';
-export const createHash = (data: AnyLike) => {
-  const str = JSON.stringify(data);
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-  }
-  return `${hash.toString(32)}`;
-};
 
 export const createProxyStoreData = <TData extends ObjectLike>(data: TData) => {
   return new Proxy(data, {

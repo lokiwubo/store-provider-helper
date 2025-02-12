@@ -4,3 +4,4 @@
 **.tgz
 packages/react/node_modules
 packages/react/dist
+.history/*

@@ -10,8 +10,6 @@ import { createHistoryRecordData, createProxyStoreData, shallowCompareValues } f
 import { HistoryStorage } from './history';
 import { CustomEventParams, HistoryRecordData, HistoryStructData } from './types';
 
-export { createHash } from './helper';
-
 const originalPushState = history.pushState;
 const originalReplaceState = history.replaceState;
 
