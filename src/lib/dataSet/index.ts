@@ -8,6 +8,7 @@
 import { Container } from 'inversify';
 import type { AnyLike, RecordLike, SeniorNonNullable } from 'ts-utils-helper';
 import { deepFreeze, deepReadOnly } from 'ts-utils-helper';
+import { createStoreApis, StoreContainer } from '.';
 import {
   createDependencies,
   createDynamicDependencies,
@@ -16,7 +17,6 @@ import {
   shackleDefinedStore,
   shackleDefineModel,
 } from './helper';
-import { createStoreApis, StoreContainer } from './store';
 import { ContainerDependenciesUnion } from './types/dependencies';
 import { DefineModelOutput, ModelStructureData } from './types/model';
 import { ExtractState } from './types/shared';

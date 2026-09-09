@@ -1,7 +1,36 @@
-/node_modules
-.npmrc
-/dist
-**.tgz
-packages/react/node_modules
-packages/react/dist
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 .history/*
+.eslintrc-auto-import.json
+
+# visualizer html
+stats.html
+
+.vscode/extensions.json
+*.http
+*._draft.tsx
+*._draft.ts
+desktop.ini
+*.code-workspace
+

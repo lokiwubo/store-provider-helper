@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        "image-viewer": {
+            "type": "stdio",
+            "command": "cmd",
+            "args": ["/c", "npx", "-y", "inchat-image-viewer-mcp"],
+            "env": {}
+        }
+    }
+}

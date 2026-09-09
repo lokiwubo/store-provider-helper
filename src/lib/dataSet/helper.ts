@@ -1,5 +1,5 @@
 import type { AnyLike, RecordLike } from 'ts-utils-helper';
-import { ModelApiProvider } from './store';
+import { ModelApiProvider } from '.';
 import {
   ContainerDependenciesBase,
   ContainerDependenciesUnion,

@@ -92,11 +92,11 @@ export type DefineModelOutput<
  */
 type CreateBoundActionOutput<T extends ModelActionsTemplate> = {
   [actionKey in keyof T]: T[actionKey] extends FunctionLike
-    ? {
-        (...args: Parameters<T[actionKey]>): ReturnType<T[actionKey]>;
-        subscribeAction: (callback: (...args: Parameters<T[actionKey]>) => void) => UnSubscribe;
-      }
-    : never;
+  ? {
+    (...args: Parameters<T[actionKey]>): ReturnType<T[actionKey]>;
+    subscribeAction: (callback: (...args: Parameters<T[actionKey]>) => void) => UnSubscribe;
+  }
+  : never;
 };
 
 export interface ModelBoundOutput<T extends ModelStructureData = ModelStructureData> {
