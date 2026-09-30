@@ -1,1 +1,1 @@
-export const RAW_KEY = Symbol.for('RAW');
+export const DRAFT_STATE = Symbol.for('DRAFT_STATE');

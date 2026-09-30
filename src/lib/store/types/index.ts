@@ -5,13 +5,13 @@ import type {
     AsertGetters,
     AsertObject,
     FunctionLike,
+    Merge,
     Prettify,
     RecordKeyLike,
     RecordLike,
     StorePrimaryKeyLike,
     StoreRecordFunctionsLike,
 } from './shared';
-import { Merge } from './shared';
 
 export type StoreContainerOptions<TState extends RecordLike> = {
     getPrimaryKey?: () => string;
@@ -58,13 +58,13 @@ export type StoreConfig<
     actions: ((
         state: NoInfer<TState>,
         getContainer: GetContainer,
-        primateKey: RecordKeyLike
+        primateKey: RecordKeyLike,
     ) => TActions) &
     BindStoreContext<TActions, TState, TGetters>;
     getters: ((
         state: NoInfer<TState>,
         getContainer: GetContainer,
-        primateKey: RecordKeyLike
+        primateKey: RecordKeyLike,
     ) => TGetters) &
     BindStoreContext<TActions, TState, TGetters>;
     onInitialize?: FunctionLike;
@@ -73,7 +73,7 @@ export type StoreConfig<
     merge: <const UState, const UActions, const UGetters, const UIsDynamic, const UOptions>(
         config: DefinedConfigParamsType<UState, UActions, UGetters, TState, TActions, TGetters>,
         isDynamic?: UIsDynamic,
-        option?: UOptions
+        option?: UOptions,
     ) => StoreConfig<
         Prettify<UState & TState>,
         Prettify<UActions & TActions>,
@@ -111,15 +111,23 @@ export type DefinedConfigParamsType<
     actions?: (
         state: Merge<AsertObject<TState>, AsertObject<TContextState>>,
         getContainer: GetContainer,
-        primateKey: RecordKeyLike
+        primateKey: RecordKeyLike,
     ) => TActions &
-        BindStoreContext<TActions & TContectActions, TState & TContextState, TGetters & TContextGetter>;
+        BindStoreContext<
+            TActions & TContectActions,
+            TState & TContextState,
+            TGetters & TContextGetter
+        >;
     getters?: (
         state: Merge<AsertObject<TState>, AsertObject<TContextState>>,
         getContainer: GetContainer,
-        primateKey: RecordKeyLike
+        primateKey: RecordKeyLike,
     ) => TGetters &
-        BindStoreContext<TActions & TContectActions, TState & TContextState, TGetters & TContextGetter>;
+        BindStoreContext<
+            TActions & TContectActions,
+            TState & TContextState,
+            TGetters & TContextGetter
+        >;
 } & {
     onInitialize?: FunctionLike;
     onDestroy?: FunctionLike;
@@ -135,11 +143,15 @@ export type GetContainer = <
 >(
     model: TModel,
     containerKey?: StorePrimaryKeyLike,
-    option?: StoreContainerOptions<NoInfer<ReturnType<TModel['state']>>>
+    option?: StoreContainerOptions<NoInfer<ReturnType<TModel[ 'state' ]>>>,
 ) => StoreContainer<TModel>;
 
 export type ExtractType<
     TState extends RecordLike,
-    TType extends StoreContainerOptions<TState>['type'],
+    TType extends StoreContainerOptions<TState>[ 'type' ],
 > =
-    StoreContainerOptions<TState> extends infer U ? (U extends { type?: TType } ? U : never) : never;
+    StoreContainerOptions<TState> extends infer U
+    ? U extends { type?: TType }
+    ? U
+    : never
+    : never;

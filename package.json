@@ -25,6 +25,7 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@rollup/plugin-commonjs": "^28.0.2",
+    "@types/node": "^22.10.5",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
@@ -53,7 +54,7 @@
   },
   "peerDependencies": {
     "lodash-es": "^4.17.21",
-    "ts-utils-helper": ">=1.0.20",
+    "ts-utils-helper": ">=1.0.12",
     "zod": "^3.23.8"
   },
   "bugs": {

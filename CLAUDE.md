@@ -18,3 +18,7 @@ src/lib
 ├── store
 │ ├── core.ts
 │ ├── defined.ts
+
+## 要求
+
+1. 开发文件为 lib/store 不去读取history 和dataSet 文件夹

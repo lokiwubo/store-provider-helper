@@ -21,7 +21,7 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
       ts-utils-helper:
-        specifier: '>=1.0.20'
+        specifier: '>=1.0.12'
         version: 1.0.12
       tslib:
         specifier: ^2.8.1
@@ -48,6 +48,9 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.10.5
       eslint:
         specifier: ^9.16.0
         version: 9.17.0

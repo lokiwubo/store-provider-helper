@@ -47,7 +47,7 @@ export type UseGetContainerOut<
     container: StoreContainer<TModel>;
     getters: ExtraStoreGetter<TState, ReturnType<TModel['getters']>> &
     BindStoreContext<TModel['actions'], TState, TModel['getters']>;
-    subscribeState: StoreContainer<TModel>['subscribeState'];
-    subscribeActions: StoreContainer<TModel>['subscribeActions'];
-    subscribeGetters: StoreContainer<TModel>['subscribeGetters'];
+    subscribeState: StoreContainer<TModel>['subscribeStateChange'];
+    subscribeActions: StoreContainer<TModel>['subscribeActionRun'];
+    subscribeGetters: StoreContainer<TModel>['subscribeGetterChange'];
 };
